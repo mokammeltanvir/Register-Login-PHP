@@ -1,4 +1,7 @@
 <?php
+
+include 'config.php';
+
 if (isset($_POST['submit'])) {
     $fname = $_POST['fname'];
     $username = $_POST['username'];
@@ -38,6 +41,35 @@ if (isset($_POST['submit'])) {
     if (empty($cpassword)) {
         $error['cpassword'] = "<p style='color:red;'>Confirm Password is required</p>";
     }
+
+    if (count($error) == 0) {
+        $email_check = mysqli_query($conn, "SELECT * FROM users WHERE email = '{$email}'");
+        $email_count = mysqli_num_rows($email_check);
+
+        if ($email_count == 0) {
+            $username_check = mysqli_query($conn, "SELECT * FROM users WHERE username = '{$username}'");
+            $username_count = mysqli_num_rows($username_check);
+            if ($username_count == 0) {
+                if (strlen($username) > 6) {
+                    if (strlen($password) > 8) {
+                        if ($password == $cpassword) {
+
+                        } else {
+                            $error['cpassword'] = "<p style='color:red;'>Password does not match</p>";
+                        }
+                    } else {
+                        $error['password'] = "<p style='color:red;'>Password is too short</p>";
+                    }
+                } else {
+                    $error['username'] = "<p style='color:red;'>Username is too short</p>";
+                }
+            } else {
+                $username_match = "<p style='color:red;'>Username already exists</p>";
+            }
+        } else {
+            $email_match = "<p style='color:red;'>Email already exists</p>";
+        }
+    }
 }
 ?>
 
@@ -74,6 +106,12 @@ if (isset($_POST['submit'])) {
             <?php if (isset($error['username'])) {
     echo $error['username'];
 }?>
+          </span>
+                    <span>
+            <?php if (isset($username_match)) {
+    echo $username_match;
+}?>
+          </span>
         </div>
         <div class="mb-3">
           <label>Email</label>
@@ -82,6 +120,12 @@ if (isset($_POST['submit'])) {
             <?php if (isset($error['email'])) {
     echo $error['email'];
 }?>
+          </span>
+          <span>
+            <?php if (isset($email_match)) {
+    echo $email_match;
+}?>
+          </span>
         </div>
         <div class="mb-3">
           <label>Address</label>
@@ -92,6 +136,7 @@ if (isset($_POST['submit'])) {
             <?php if (isset($error['address'])) {
     echo $error['address'];
 }?>
+          </span>
         </div>
         <div class="mb-3">
           <label>Gender</label> <br/>
@@ -104,6 +149,7 @@ if (isset($_POST['submit'])) {
             <?php if (isset($gender)) {
     echo $gender;
 }?>
+          </span>
         </div>
         <div class="mb-3">
           <label>Favorite Games</label><br/>
@@ -121,6 +167,7 @@ if (isset($_POST['submit'])) {
             <?php if (isset($games)) {
     echo $games;
 }?>
+          </span>
         </div>
         <div class="mb-3">
           <label>Country</label>
@@ -149,6 +196,7 @@ if (isset($_POST['submit'])) {
             <?php if (isset($error['password'])) {
     echo $error['password'];
 }?>
+          </span>
         </div>
         <div class="mb-3">
           <label>Confirm Password</label>
@@ -157,6 +205,7 @@ if (isset($_POST['submit'])) {
             <?php if (isset($error['cpassword'])) {
     echo $error['cpassword'];
 }?>
+          </span>
         </div>
         <div class="mb-3">
           <input type="submit" name="submit" value="Register" class="btn btn-primary">
