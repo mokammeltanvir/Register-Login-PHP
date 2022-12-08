@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
         <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="mb-3">
           <label>Full Name</label>
-          <input type="text" name="fname" class="form-control">
+          <input type="text" name="fname" class="form-control" value="<?php if (isset($fname)) {echo $fname;}?>">
           <span>
             <?php if (isset($error['fname'])) {
     echo $error['fname'];
@@ -69,7 +69,7 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
           <label>Username</label>
-          <input type="text" name="username" class="form-control">
+          <input type="text" name="username" class="form-control" value="<?php if (isset($username)) {echo $username;}?>">
           <span>
             <?php if (isset($error['username'])) {
     echo $error['username'];
@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
           <label>Email</label>
-          <input type="email" name="email" class="form-control">
+          <input type="email" name="email" class="form-control" value="<?php if (isset($email)) {echo $email;}?>">
           <span>
             <?php if (isset($error['email'])) {
     echo $error['email'];
@@ -85,7 +85,9 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
           <label>Address</label>
-          <textarea name="address" class="form-control"></textarea>
+          <textarea name="address" class="form-control">
+            <?php if (isset($address)) {echo $address;}?>
+        </textarea>
           <span>
             <?php if (isset($error['address'])) {
     echo $error['address'];
@@ -93,9 +95,11 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
           <label>Gender</label> <br/>
-          <input type="radio" name="gender" value="Male">Male
-          <input type="radio" name="gender" value="Female">Female
-          <input type="radio" name="gender" value="Other">Other
+          <input type="radio" name="gender" value="Male"<?php if (isset($gender) && $gender == 'Male') {echo 'checked';}?> >Male
+          <input type="radio" name="gender" value="Female" <?php if (isset($gender) && $gender == 'Female') {echo 'checked';}
+?> >Female
+          <input type="radio" name="gender" value="Other" <?php if (isset($gender) && $gender == 'Other') {echo 'checked';}
+?>>Other
           <span>
             <?php if (isset($gender)) {
     echo $gender;
@@ -103,11 +107,16 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
           <label>Favorite Games</label><br/>
-          <input type="checkbox" name="games[]" value="Cricket">  Cricket
-          <input type="checkbox" name="games[]" value="Football">  Football
-          <input type="checkbox" name="games[]" value="Hockey">  Hockey
-          <input type="checkbox" name="games[]" value="Badminton">  Badminton
-          <input type="checkbox" name="games[]" value="Tennis">  Tennis
+          <input type="checkbox" name="games[]" value="Cricket" <?php if (isset($games)) {if (in_array('Cricket', $games)) {echo 'checked';}}
+?>>  Cricket
+          <input type="checkbox" name="games[]" value="Football" <?php if (isset($games)) {if (in_array('Football', $games)) {echo 'checked';}}
+?>>  Football
+          <input type="checkbox" name="games[]" value="Hockey" <?php if (isset($games)) {if (in_array('Hockey', $games)) {echo 'checked';}}
+?>>  Hockey
+          <input type="checkbox" name="games[]" value="Badminton" <?php if (isset($games)) {if (in_array('Badminton', $games)) {echo 'checked';}}
+?>>  Badminton
+          <input type="checkbox" name="games[]" value="Tennis" <?php if (isset($games)) {if (in_array('Tennis', $games)) {echo 'checked';}}
+?>>  Tennis
           <span>
             <?php if (isset($games)) {
     echo $games;
@@ -117,11 +126,16 @@ if (isset($_POST['submit'])) {
           <label>Country</label>
           <select name="country" class="form-control">
             <option value="">Select Country</option>
-            <option value="Bangladesh">Bangladesh</option>
-            <option value="India">India</option>
-            <option value="USA">USA</option>
-            <option value="UK">UK</option>
-            <option value="Canada">Canada</option>
+            <option value="Bangladesh" <?php if (isset($country) && $country == 'Bangladesh') {echo 'selected';}
+?> >Bangladesh</option>
+            <option value="India" <?php if (isset($country) && $country == 'India') {echo 'selected';}
+?> >India</option>
+            <option value="USA" <?php if (isset($country) && $country == 'USA') {echo 'selected';}
+?> >USA</option>
+            <option value="UK" <?php if (isset($country) && $country == 'UK') {echo 'selected';}
+?> >UK</option>
+            <option value="Canada" <?php if (isset($country) && $country == 'Canada') {echo 'selected';}
+?> >Canada</option>
           </select>
           <span>
             <?php if (isset($error['country'])) {
@@ -130,7 +144,7 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
           <label>Password</label>
-          <input type="password" name="password" class="form-control">
+          <input type="password" name="password" class="form-control" value="<?php if (isset($password)) {echo $password;}?>">
           <span>
             <?php if (isset($error['password'])) {
     echo $error['password'];
@@ -138,7 +152,7 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
           <label>Confirm Password</label>
-          <input type="password" name="cpassword" class="form-control">
+          <input type="password" name="cpassword" class="form-control" value="<?php if (isset($cpassword)) {echo $cpassword;}?>">
           <span>
             <?php if (isset($error['cpassword'])) {
     echo $error['cpassword'];
