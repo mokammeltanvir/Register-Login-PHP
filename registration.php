@@ -8,10 +8,11 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $address = $_POST['address'];
     if (isset($_POST['gender'])) {$gender = $_POST['gender'];}
-    if (isset($_POST['games'])) {$games = $_POST['games'];}
+    if (isset($_POST['games'])) {$games = $_POST['games'];
+        $game = implode(", ", $games);}
     $country = $_POST['country'];
-    $password = $_POST['password'];
-    $cpassword = $_POST['cpassword'];
+    $password = md5($_POST['password']);
+    $cpassword = md5($_POST['cpassword']);
 
     $error = [];
     if (empty($fname)) {
@@ -53,7 +54,13 @@ if (isset($_POST['submit'])) {
                 if (strlen($username) > 6) {
                     if (strlen($password) > 8) {
                         if ($password == $cpassword) {
-
+                            $sql = "INSERT INTO users (fname, username, email, address, gender, games, country, password) VALUES ('{$fname}', '{$username}', '{$email}', '{$address}', '{$gender}', '{$game}', '{$country}', '{$password}')";
+                            $result = mysqli_query($conn, $sql) or die("Query Failed");
+                            if ($result) {
+                                header("Location: login.php");
+                            } else {
+                                $register_msg = "<div class='alert alert-danger'>Registration Failed</div>";
+                            }
                         } else {
                             $error['cpassword'] = "<p style='color:red;'>Password does not match</p>";
                         }
@@ -89,6 +96,7 @@ if (isset($_POST['submit'])) {
     <div class="row">
       <div class="col-xxl-5 mx-auto">
       <h2 class="p-3 mb-3 bg-primary text-white text-center">Registration Form</h2>
+      <?php if (isset($register_msg)) {echo $register_msg;}?>
         <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
         <div class="mb-3">
           <label>Full Name</label>
